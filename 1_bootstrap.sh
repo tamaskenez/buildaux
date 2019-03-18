@@ -13,4 +13,7 @@ else
     cd -
 fi
 
-cp b/buildaux/clang-format-all.sh b/buildaux/.clang-format .
+cp b/buildaux/1_bootstrap.sh \
+   b/buildaux/clang-format-all.sh \
+   b/buildaux/.clang-format \
+   .
