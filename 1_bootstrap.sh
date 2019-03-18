@@ -3,12 +3,12 @@
 cd $(dirname $0)
 
 mkdir -p b
-cd b
-if [[ ! -d "buildaux" ]]; then
-    echo -e "-- Cloning [buildaux]: git clone https://github.com/tamaskenez/buildaux.git b/buildaux"
-    git clone https://github.com/tamaskenez/buildaux.git
+if [[ ! -d "b/buildaux" ]]; then
+    echo -e "-- Cloning [buildaux]: cd b && git clone https://github.com/tamaskenez/buildaux.git buildaux"
+    cd b && git clone https://github.com/tamaskenez/buildaux.git
 else
-    cd buildaux
+    echo -e "\n-- Updating [buildaux]: cd b/buildaux && git pull --ff-only"
+    cd b/buildaux
     git pull --ff-only
     cd -
 fi
