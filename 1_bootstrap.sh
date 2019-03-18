@@ -12,3 +12,5 @@ else
     git pull --ff-only
     cd -
 fi
+
+cp b/buildaux/clang-format-all.sh b/buildaux/.clang-format .
