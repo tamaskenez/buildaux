@@ -6,8 +6,8 @@ mkdir -p d
 readonly DIR=d/buildaux
 
 if [[ ! -d "$DIR" ]]; then
-    echo -e "-- Cloning [buildaux]: cd d && git clone https://github.com/tamaskenez/buildaux.git buildaux"
-    cd b && git clone https://github.com/tamaskenez/buildaux.git
+    echo -e "-- Cloning [buildaux]: git clone https://github.com/tamaskenez/buildaux.git $DIR"
+    git clone https://github.com/tamaskenez/buildaux.git "$DIR"
 else
     echo -e "\n-- Updating [buildaux]: cd $DIR && git pull --ff-only"
     cd "$DIR"
