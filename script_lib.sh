@@ -60,12 +60,12 @@ cmake_dep () {
     name=$1
     shift
     use_ide_generator=0
-    config_build_type=
+    config_build_type="-DCMAKE_BUILD_TYPE=Release"
     if [[ $1 == "--try-use-ide" ]]; then
         shift
         if [[ "$HAS_IDE_GENERATOR" == "1" ]]; then
             use_ide_generator=1
-            config_build_type=-DCMAKE_BUILD_TYPE=Release
+            config_build_type=
         fi
     fi
 
@@ -75,6 +75,8 @@ cmake_dep () {
             cmake "-Hd/$name" "-Bb/$name" \
             -DCMAKE_CXX_STANDARD=$CMAKE_CXX_STANDARD \
             -DCMAKE_INSTALL_PREFIX=$PWD/i \
+            -DCMAKE_PREFIX_PATH=$PWD/i \
+            -DCMAKE_DEBUG_POSTFIX=_d \
             $IDE_GENERATOR \
             "$@")
     else
@@ -82,6 +84,8 @@ cmake_dep () {
             cmake "-Hd/$name" "-Bb/$name" \
             -DCMAKE_CXX_STANDARD=$CMAKE_CXX_STANDARD \
             -DCMAKE_INSTALL_PREFIX=$PWD/i \
+            -DCMAKE_PREFIX_PATH=$PWD/i \
+            -DCMAKE_DEBUG_POSTFIX=_d \
             $config_build_type \
             "$@")
     fi
@@ -101,7 +105,6 @@ cmake_dep () {
         (set -x; \
             cmake \
                 --build "b/$name" \
-                --config Release \
                 --target install -j $BUILD_THREADS)
     fi
 }
