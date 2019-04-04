@@ -1,0 +1,82 @@
+#!/bin/bash -e
+
+function print_usage() {
+    echo "cmx: shortcuts for frequent CMake commands"
+    echo "First argument must be a combination of letters 'cCbidr', where"
+    echo "- c: config"
+    echo "- C: config, set CMAKE_BUILD_TYPE"
+    echo "- b: build"
+    echo "- i: install"
+    echo "- d: debug configuration"
+    echo "- r: release configuration"
+}
+
+if [[ -z "$1" ]]; then
+    print_usage >&2
+    exit 1
+fi
+
+case "$1" in
+    -h|--help|help)
+        print_usage
+        exit 0
+        ;;
+esac
+
+flag_build=
+flag_install=
+configs=
+flag_config=
+flag_build_type=
+
+while IFS='' read -r -d '' -n 1 char; do
+    case "$char" in
+        c)
+            flag_config=1
+            ;;
+        C)
+            flag_config=1
+            flag_build_type=1
+            ;;
+        b)
+            flag_build=1
+            ;;
+        i)
+            flag_build=1
+            flag_install=1
+            ;;
+        d)
+            configs="$configs Debug"
+            ;;
+        r)
+            configs="$configs Release"
+            ;;
+        *)
+            echo "Invalid character: $char" >&2
+            exit 1
+    esac
+done < <(printf %s "$1")
+
+if [[ -z "$2" ]]; then
+    echo "Missing second argument (build directory)." >&2
+    exit 1
+fi
+
+export CMAKE_BUILD_PARALLEL_LEVEL=8
+
+for config in $configs; do
+    if [[ -n "$flag_config" ]]; then
+        if [[ -n "$flag_build_type" ]]; then
+            cmake "$2" "-DCMAKE_BUILD_TYPE=$config"
+        else
+            cmake "$2"
+        fi
+    fi
+    if [[ -n "$flag_build" ]]; then
+        if [[ -n "$flag_install" ]]; then
+            cmake --build "$2" --target install --config "$config"
+        else
+            cmake --build "$2" --config "$config"
+        fi
+    fi
+done
