@@ -1,0 +1,26 @@
+cmake_mininum_required(VERSION 3.15)
+project(...)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED 1)
+set(CMAKE_DEBUG_POSTFIX _d)
+
+set(WARNINGS_AS_ERRORS 1)
+
+if (MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+  if (WARNINGS_AS_ERRORS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX")
+  endif()
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wformat -Wall -Wextra -Wconversion -Wsign-conversion")
+  if (WARNINGS_AS_ERRORS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -pedantic-errors")
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic")
+  endif()
+endif()
+
+set(SOME_DIR ${CMAKE_CURRENT_SOURCE_DIR}/some_dir)
+get_filename_component(SOME_OTHER_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../some_other_dir" ABSOLUTE)
+add_compile_definitions(SOME_DIR="${SOME_DIR}" SOME_OTHER_DIR="${SOME_OTHER_DIR}")
