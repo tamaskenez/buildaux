@@ -72,7 +72,7 @@ cmake_dep () {
     echo -e "\n-- Configuring [$name] with cmake"
     if [[ $use_ide_generator == "1" ]]; then
         (set -x; \
-            cmake "-Hd/$name" "-Bb/$name" \
+            cmake "-Hd/$name" "-Bbd/$name" \
             -DCMAKE_CXX_STANDARD=$CMAKE_CXX_STANDARD \
             -DCMAKE_INSTALL_PREFIX=$PWD/i \
             -DCMAKE_PREFIX_PATH=$PWD/i \
@@ -81,7 +81,7 @@ cmake_dep () {
             "$@")
     else
         (set -x; \
-            cmake "-Hd/$name" "-Bb/$name" \
+            cmake "-Hd/$name" "-Bbd/$name" \
             -DCMAKE_CXX_STANDARD=$CMAKE_CXX_STANDARD \
             -DCMAKE_INSTALL_PREFIX=$PWD/i \
             -DCMAKE_PREFIX_PATH=$PWD/i \
@@ -93,18 +93,18 @@ cmake_dep () {
     if [[ $use_ide_generator == "1" ]]; then
         (set -x; \
             cmake \
-                --build "b/$name" \
+                --build "bd/$name" \
                 --config Debug \
                 --target install -j $BUILD_THREADS)
         (set -x; \
             cmake \
-                --build "b/$name" \
+                --build "bd/$name" \
                 --config Release \
                 --target install -j $BUILD_THREADS)
     else
         (set -x; \
             cmake \
-                --build "b/$name" \
+                --build "bd/$name" \
                 --target install -j $BUILD_THREADS)
     fi
 }
