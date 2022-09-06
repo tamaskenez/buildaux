@@ -4,9 +4,15 @@ Build related helper stuff for C++ projects.
 
 ## Start new C++ repo
 
-- Copy `1_bootstrap.sh` into the root of your repo.
-- Run `chmod +x 1_bootstrap.sh && ./1_bootstrap.sh`: which clones this repo
-  into `d/` and copies certain files (see that script) into the project root.
+Run
+
+```
+wget https://raw.githubusercontent.com/tamaskenez/buildaux/master/1_bootstrap.sh \
+    && chmod +x 1_bootstrap.sh \
+    && ./1_bootstrap.sh
+```
+
+to clones this repo into `d/` and copy certain files (see that script) into the project root.
 
 Directory structure in your project:
 
